@@ -9,6 +9,7 @@ public class Game
     private string _ai = "";
     //Declaring whos turn it is, player goes first
     private bool _turn;
+    private bool _quit;
     private string _winner = string.Empty;
     //This is just for displaying
     private readonly List<int> _winningMoves = new();
@@ -49,7 +50,7 @@ public class Game
     private void GameLoop()
     {
         //Main loop
-        while (true)
+        while (!_quit)
         {
             //Means we've declared a winner
             if (_winner != string.Empty)
@@ -103,6 +104,7 @@ public class Game
         {
             Console.WriteLine("Draw");
             DrawGrid();
+            _quit = true;
             return;
         }
         //Write out the winner and show the grid one last time
@@ -113,6 +115,7 @@ public class Game
             _board[i] = _green + _board[i] + _normal;
         }
         DrawGrid();
+        _quit = true;
     }
 
     private void CheckHorizontal()
@@ -172,9 +175,10 @@ public class Game
     private void PlayerMove()
     {
         //ask for a number representing one of the tiles, invalidate all inputs that aren't numbers between 1-9
+        var hasMadeChoice = false;
         Console.WriteLine("Select 1-9 for your turn: ");
         DrawGrid();
-        while (true)
+        while (!hasMadeChoice)
         {
             var choice = int.TryParse(Console.ReadLine(), out var i);
             //Correct input? Is it 9 or less? Does the space already have something?
@@ -183,25 +187,25 @@ public class Game
                 Console.WriteLine("Invalid move. Try again.");
                 continue;
             }
-
+            hasMadeChoice = true;
             _board[i - 1] = _player;
-            Console.Clear();
             //Give AI a turn
             _turn = true;
-            break;
+            Console.Clear();
         }
     }
 
     private void AiMove()
     {
         //Just choose a random non-occupied tile between 0 and the board size
+        var hasChosenMove = false;
         var rand = new Random();
-        while (true)
+        while (!hasChosenMove)
         {
             var choice = rand.Next(0, _board.Length);
             if (_board[choice] == _player || _board[choice] == _ai) continue;
             _board[choice] = _ai;
-            break;
+            hasChosenMove = true;
         }
         _turn = false;
     }

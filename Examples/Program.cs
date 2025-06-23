@@ -14,12 +14,21 @@ class Program
             Raylib.ClearBackground(Color.Pink);
             for (var i = 0; i < Raylib.GetScreenWidth(); i += 50)
             {
-                Raylib.DrawLine(i,0, (int)(i * (Math.Sin(Raylib.GetTime()) * 10)), Raylib.GetScreenHeight(), Color.White);
+                Raylib.DrawLine(
+                    startPosX: i,
+                    startPosY: 0, 
+                    endPosX: (int)(i * (Math.Sin(Raylib.GetTime()) * 10)), 
+                    endPosY: Raylib.GetScreenHeight(), 
+                    color: Color.White);
             }
             for (var i = 0; i < Raylib.GetScreenHeight(); i += 50)
             {
-                Raylib.DrawLine(0,i, 
-                    Raylib.GetScreenWidth(), (int)(i * (Math.Sin(Raylib.GetTime()) * 10)), Color.White);
+                Raylib.DrawLine(
+                    0,
+                    i, 
+                    Raylib.GetScreenWidth(), 
+                    (int)(i * (Math.Sin(Raylib.GetTime()) * 10)), 
+                    Color.White);
             }
             Raylib.EndDrawing();
         }
